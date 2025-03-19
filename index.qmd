@@ -1,5 +1,5 @@
 ---
-title: "Project"
+title: "Data Visualizatoin Practice"
 author: "Becca Crosse"
 subtitle: "Investigation into Chicago taxis"
 echo: false
@@ -17,6 +17,11 @@ library(scales)
 ```
 
 ## Question 1
+
+```{r}
+glimpse(taxi)
+```
+
 
 
 ## Question 2 

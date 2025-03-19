@@ -3,102 +3,73 @@
 
 > [!IMPORTANT]
 >
-> ### 
->
-> This is the final project for course 1. This will not be graded, and is
+> This is a final project for course 1. This will not be graded, and is
 > intended to provide you with the opportunity to test the skills you’ve
 > acquired throughout the course in a less structured environment.
-> This project is also structured for you to host on a webpage and link as proof of work on your resume or CV. 
->
-> Rubric items can be found at the end of the README in the Self rubric section to help self-assessment of your project. Do not expand the rubric items until you have finished a draft of your project.
->
+> Reflection questions and rubric items can be found at the end of the
+> project to help self-assessment.
 
+## Packages
 
-## Before you start
-
-Please complete the following steps before getting started if you have not downloaded and configured Git. 
-
-### Download Git
-
-Note, if you are on Windows or Linux, you will need to install Git.  If you do not have git installed, please do so: 
-
-Windows ->  https://git-scm.com/download/win
-
-Linux   ->  https://git-scm.com/download/linux
-
-### Configure git with RStudio 
-
-In the console, run the following: 
-```r
-install.packages("usethis")
-
-usethis::use_git_config(
-  user.name = "Your name", 
-  user.email = "Email associated with your GitHub account"
- )
+``` r
+library(tidyverse)
+library(scales)
 ```
-Please make sure that you replace "YourName" with your actual name, and "Email associated with your GitHub account" with your email used for your GitHub account. 
-
-### Create and authenticate your personal access token 
-
-In the console, run the following to geneate your personal access token (PAT) 
-
-```r
-usethis::create_github_token()
-```
-
-Next, run the following and paste your PAT in:
-
-```r
-gitcreds::gitcreds_set()
-```
-
-### Getting started 
-
-Once you restart R, you will be able to clone this project repository and get working! To clone this project: 
-- Click the green code button on the repo
-- Copy the HTTPS
-- Open a new project in RStudio
-- Click version control and then Git
-- Paste the copied HTTPS in the Repository URL box.
-- Name the project directory
-- Browse and select where this project will be saved
-- Click create project!
-
 
 ## Instructions
 
 This final project consists of an exploratory data analysis and write up
-of results you discover. The data set you will be working with is a pre-packaged R data set
-called `taxi`. Your write up, in index.qmd, will explore (at least) two questions.
+of results you discovered. The data set you will be working with is
+called `OrchardSprays`. Your write up will consist of three sections.
 
-<img align="right" src="images/taxi.png" width="300" height="180" />
+**Introduction** - The introduction contains more information about your
+data set and the research question(s) you are tasked to investigate.
 
-## Description 
+**Methods** - The methods section should include visualizations and
+summary statistics relevant to your research question(s). These should
+be accompanied with written descriptions.
 
-A taxi is a type of vehicle for hire with a driver. Often seen as a yellow vehicle, taxi drivers charge passengers money to transport them from one place to another. These data contain information on a subset of taxi trips in the city of Chicago in 2022. You may have some initial hypotheses on how the taxi system works! For example, it may be reasonable to think the longer the taxi ride is, the more likely a passenger is to tip. If someone is considering working for a taxi company, they may wonder if one company tends to get more tips than the others.
+**Discussion** - In this section you’ll include a written summary of
+what you have learned about your research question(s), will discuss your
+overall findings, and describe the key results from your analysis.
 
-A data table is below:
+## Introduction
 
-| variable    | description                                                             |
-|-------------|-------------------------------------------------------------------------|
-| `tip`    | Whether the rider left a tip. A factor with levels "yes" and "no"|
-| `distance`    | The trip distance, in odometer miles|
-| `company` | The taxi company, as a factor. Companies that occurred few times were binned as "other" |
-| `Time`  | time of requested loan                                     |
-| `local`    | Whether the trip's starting and ending locations are in the same community. See the source data for community area values|
-| `dow`    | The day of the week in which the trip began, as a factor|
-| `month`    | The month in which the trip began, as a factor                                               |
-| `hour`    | The hour of the day in which the trip began, as a numeric|
+<img src="images/orchard.jpg" style="float: right;"
+data-fig-align="center" width="300" height="350" />
 
-## Research Questions
+An orchard is a plantation of trees or shrubs that is maintained for
+food production. Often, pesticides are used to control for various pests
+and disease carriers. However, an unintended consequence of using
+pesticides is the deterrent of honeybees. The presence of honeybees in
+orchards is crucial for the production of food.
 
-You are tasked to use these data to explore the following questions: 
+Researchers conducted an experiment to assess the potency of various
+pesticides in repelling honeybees. There was a total of 8 different
+levels of pesticide (`treatment`) with varying amounts of lime sulphur.
+Each of these 8 treatments were used 8 times, randomly assigned to the
+orchard that was divided into 64 squares.
 
-1) Is there there a relationship between the distance (in miles) someone travels in a taxi and if they tip or not? 
+The response variable (`decrease`) for the different treatment levels of
+pesticides were obtained by releasing 100 bees into each square for 2
+hours and measuring the decrease in volume of the solutions. A decrease
+in solution means that the honey bees are not repelled and are visiting
+the plants as normal \[@mcneil1977\].
 
-2) Do taxi passengers tend to tip more for the company Chicago Independents than the other companies?
+A data table for this experiment can be seen below:
 
+| variable | description |
+|----|----|
+| `rowpos` | numeric row of the design |
+| `colpos` | numeric column of the design |
+| `treatment` | treatment level (A having the highest level … H having no lime sulphur) |
+| `decrease` | decrease in volume of the solutions |
+
+**Research Question**: You are tasked to investigate which treatment(s)
+of pesticides produced the highest decrease in solution. Additionally,
+you are interested in seeing if, regardless of treatment, the first four
+rows of the orchard showed more or less of a decrease in solutions than
+the last four rows.
 
 Hint: you may need to make a new variable in order to answer the second
 research question. You may also find the function
@@ -106,8 +77,6 @@ research question. You may also find the function
 useful.
 
 > [!IMPORTANT]
->
-> ### 
 >
 > <img src="images/github.png" data-fig-align="left" width="25"
 > height="25" /> - **Version control with GitHub** <br> This project
@@ -119,60 +88,36 @@ useful.
 > before making any progress to ensure your project matches up with the
 > project repository.
 
-## Displaying code
+## Methods
 
-Depending on the purpose of the project, it may be advantageous to either show or hide all of your code in your rendered document. To hide all of your code, set `echo: false` in your YAML. If you want to display your code, set `echo: true`.   
- 
- 
-## Citations 
+Write / create here.
 
-When working on your project, you may want to include outside sources. When doing so, we need to make sure these sources are properly cited. In order to do so, we need to create a .bib file and specify it in your index.qmd's YAML heading. Your project files include a references.bib txt file. This is where you will put bibtex entries. An example of an entry to be referenced can be seen below: 
+## Discussion
 
-```
-@article{Cetinkaya2020,
-	title        = {A Fresh Look at Introductory Data Science},
-	author       = {Cetinkaya, Mine and Ellison, Victoria},
-	year         = 2020,
-	month        = {08},
-	journal      = {Journal of Statistics Education},
-	volume       = 29,
-	pages        = {1--27},
-	doi          = {10.1080/10691898.2020.1804497}
-}
-```
-In this entry above, `Cetinkaya2020` is the citation identifier. The default way to cite an entry in your text is with this syntax: [@citation-identifier].
-
-To automatically generate a references section with your entries, the path to the .bib file needs to be specified in your YAML with bibliography: references.bib. This has been done for you. 
+Write here.
 
 ## Self rubric
 
 Below are a collection of rubric items to self assess your report.
 
+> [!TIP]
+>
+> ### Rubric items
+>
+> - Report should include 1-2 visualizations with accompanying summary
+>   statistics per research question.
+>
+> - All visualizations should be appropriately labeled, including having
+>   a title and customized axes.
+>
+> - Only plots and summary statistics that are relevant to the research
+>   question(s) should be created.
+>
+> - Should come to the conclusion that the more potent the pesticide,
+>   the less decrease in volume of solution.
+>
+> - Should come to the conclusion that regardless of treatment, the mean
+>   decrease is volume of solution is roughly 10 more for the top 4 rows
+>   than the bottom 4 rows.
 
-<details>
-  <summary>Rubric items</summary>
- - Report should include 1-2 visualizations with accompanying summary
-   statistics per research question.
-
- - All visualizations should be appropriately labeled, including having
-   a title and customized axes.
-
- - Only plots and summary statistics that are relevant to the research
-   question(s) should be created.
-
- - Should come to the conclusion that there is a relationship between longer
-   taxi rides and those who tip (~ 2 miles difference between tip and no tip).
-
- - Should come to the conclusion that there is some to little evidence of a relationship between those who tip for Chicago Independents (94.8% of the time) and the rest of the companies (91.8%).
-
-</details>
-
-## Challenge
-
-Using these data, come up with a third research question, add it to your written report, and investigate!
-
-## Acknowledgements
-
-This final project was inspired by a tidymodels data set. 
-
-Kuhn M (2024). modeldata: Data Sets Useful for Modeling Examples. R package version 1.3.0, https://github.com/tidymodels/modeldata, https://modeldata.tidymodels.org.
+## References
