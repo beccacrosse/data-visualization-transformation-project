@@ -14,19 +14,72 @@ bibliography: references.bib
 library(tidyverse)
 library(tidymodels)
 library(scales)
+library(dplyr)
 ```
 
-## Question 1
+## Question 1 Which treatment(s) of pesticides produced the highest decrease in solution.
 
 ```{r}
-glimpse(taxi)
+# glimpse(taxi)
+orchard_sprays <- glimpse(OrchardSprays)
+
+# select decrease and treatment
+# group by treatment
+# summarize decrease
+# sort highest to lowest
+
+orchard_sprays |>
+  select(treatment, decrease) |>
+  group_by(treatment) |>
+  summarize(ave_decrease = mean(decrease), max_decrease = max(decrease) ) |>
+  arrange(desc(ave_decrease))
+
+lowest_ave_decrease = 4.625
+```
+
+The results of data analysis shows that treatment H, with the lowest amount of lime sulfer, shows the highest decrease in solution at the end of the observational period. In general, average decrease is observed to descend corresponding to ascending contents of lime-sulfer in each treatment- however note that treatment F and G break this order with F having both a higher amount of lime-sulfer and a higher average decrease than G. The maximum decrease observed, is much less linearly tied to descending contents of lime-sulfur than the average decrease, but generally ascends as lime-sulfur content declines.
+
+
+## Question 2 : Regardless of treatment, do the first four rows of the orchard showed more or less of a decrease in solutions than the last four rows. 
+
+```{r}
+# select only rows and decrease
+# filter by rows 1-4 and rows w
+half_mark = 4
+
+orchard_sprays |>
+  select(rowpos, decrease) |>
+  mutate(
+    first_half_row = if_else(rowpos <= half_mark, TRUE, FALSE),
+    .before = decrease
+  ) |>
+  mutate(
+    first_half_col = if_else(colpos <= half_mark, TRUE, FALSE),
+    .before = decrease
+  ) |>
+  group_by(first_half_row, first_half_col) |>
+  summarize(ave_decrease = mean(decrease), max_decrease = max(decrease)) |>
+  arrange(desc(first_half))
+  
+  
+
 ```
 
 
 
-## Question 2 
+## Your own question: Considering that the treatment with the lowest decrease (A) is the most desirable, what percentage does the average decrease treatment A differ from the average decrease across all treatments
 
+```{r}
 
-## Your own question 
+overall_mean <- mean(OrchardSprays$decrease)
+
+treatment_deviation_from_lowest_decrease <- orchard_sprays |>
+  select(decrease, treatment) |>
+  group_by(treatment) |>
+  summarize( ave_decrease_deviation = mean(decrease) - lowest_ave_decrease , ave_decrease = sum(decrease))
+
+outlier_percent_decrease <- sum(treatment_deviation_from_lowest_decrease$ave_decrease_deviation) / sum(treatment_deviation_from_lowest_decrease$ave_decrease)
+  
+```
 
 
