@@ -50,14 +50,10 @@ half_mark = 4
 orchard_sprays |>
   select(rowpos, decrease) |>
   mutate(
-    first_half_row = if_else(rowpos <= half_mark, TRUE, FALSE),
+    first_half = if_else(rowpos <= half_mark, TRUE, FALSE),
     .before = decrease
   ) |>
-  mutate(
-    first_half_col = if_else(colpos <= half_mark, TRUE, FALSE),
-    .before = decrease
-  ) |>
-  group_by(first_half_row, first_half_col) |>
+  group_by(first_half) |>
   summarize(ave_decrease = mean(decrease), max_decrease = max(decrease)) |>
   arrange(desc(first_half))
   
